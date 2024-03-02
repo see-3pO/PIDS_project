@@ -1,0 +1,12 @@
+# Ignore instance folder
+instance/
+# Ignore virtual env  folder
+myenv/
+
+#ignore files
+config.py
+db_config.py
+code.txt
+
+# Ignore Python cache files
+__pycache__/

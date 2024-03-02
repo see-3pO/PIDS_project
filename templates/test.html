@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <div class="progress-bar">
+        <ul class="progress-nodes">
+            {% for result in results %}
+                <li class="progress-node {% if result['stop_name'] == next_stop_name %}active{% elif result['stop_name'] == current_stop_name %}completed{% endif %}">
+                    <span class="node-dot"></span>
+                    <span class="node-label">{{ result['stop_name'] }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="timeline">
+            <ul class="timeline-items">
+                {% for result in results %}
+                    <li class="timeline-item {% if result['stop_name'] == next_stop_name %}highlight{% endif %}">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h2 class="bus-stop" data-stop-id="{{ result['stop_id'] }}">{{ result['stop_name'] }}</h2>
+                            <p class="fare-amount">Ksh.{{ result['fare_amount'] }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+
+{% endblock %}

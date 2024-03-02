@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<section class="section-one">
+    <div class="header-part">
+        <div class="route">
+            {%if routename is not none %}
+            <p id="start-stop">
+                {{routename}}
+            </p>
+            {% endif%}
+        </div>
+        
+        <div class="date-time">
+
+            <ul>
+                <li class="date">
+                    <i class="bi bi-calendar-fill"></i>
+                    Date: <span id="date"></span>
+                </li>
+                <li class="time">
+                    <i class="bi bi-clock-fill"></i>
+                    Time: <span id="time"></span>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+   
+</section>
+
+<section class="mid-part">
+  
+        <div class="mid-part-child timeline">
+            <ul class="timeline-items">
+                {% for result in results %}
+                    <li class="timeline-item {% if result['stop_name'] == next_stop_name %}active{% endif %}" data-stop-name="{{result['stop_name']}}">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h2 class="bus-stop" data-stop-id="{{ result['stop_id'] }}">{{ result['stop_name'] }}</h2>
+                            <p class="fare-amount">Ksh.{{ result['fare_amount'] }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+
+    <div class="mid-part-child mid-part-two">
+        <div class="next-stop-display">
+            <div class="next-stop-title">
+                <p>NEXT STOP</p>
+                <div class=" nxt-stop-name">
+                    <p id="nextStop"><span>{{next_stop_name}}</span></p>       
+                </div>
+
+            </div>
+
+            
+            <div class="ETA">
+                <i class="bi bi-clock-fill clock-icon"></i>
+                <p>Arriving in</p>
+                <p id="duration">{{duration_text}}</p>
+            </div>
+        </div>
+        <div class="announcements">
+            <div class="announcement-content">
+                <i class="bi bi-megaphone-fill"></i>
+                <div id="scroll-container">
+                    <p id="scroll-text">Always fasten your seat belt!</p>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<script>
+    // Function to initiate text-to-speech announcement
+    function announce() {
+        const stopName = document.getElementById('nextStop').innerText;
+        const duration = document.getElementById('duration').innerText;
+        console.log('Stop Name:', stopName);
+        console.log('Duration:', duration);
+
+        const announcement = `Next stop ${stopName}, Arriving in ${duration}`;
+
+        // Use Web Speech API to convert text to speech
+        const speech = new SpeechSynthesisUtterance(announcement);
+        window.speechSynthesis.speak(speech);
+    }
+
+    // Schedule announcements every 1 minutes
+    setInterval(announce, 1 * 60 * 1000); // 1 minute in milliseconds
+</script>
+
+{% endblock %}
